@@ -135,16 +135,17 @@ mainstream_at_date.loc[
     'Governance organisation'
     ] = mainstream_at_date['LA (name)'] + ' LA'
 
-ks4 = read_csv('data/exam_accounts_workforce/2018-2019/england_ks4final.csv',
-               usecols = [
-                    'URN',
-                    'P8PUP_FSM6CLA1A',
-                    'P8MEA_FSM6CLA1A',
-                    'P8PUP_NFSM6CLA1A',
-                    'P8MEA_NFSM6CLA1A',
-                    ],
-               na_values = ['NA', 'NP', 'SUPP', 'LOWCOV', 'NE'],
-               )
+ks4 = read_csv(
+    'data/exam_accounts_workforce/2018-2019/england_ks4final.csv',
+    usecols = [
+         'URN',
+         'P8PUP_FSM6CLA1A',
+         'P8MEA_FSM6CLA1A',
+         'P8PUP_NFSM6CLA1A',
+         'P8MEA_NFSM6CLA1A',
+         ],
+    na_values = ['NA', 'NP', 'SUPP', 'LOWCOV', 'NE'],
+    )
 ks4.dropna(subset=['URN'], inplace=True)
 ks4.rename(
     columns={
@@ -214,15 +215,15 @@ sec_grouped['Progress 8 - all'] = (
 sec_grouped_out = sec_grouped.reset_index()
 groups = {}
 sec_group_summary = {
-        'Governance': [],
-        'Percentile': [],
-        'Progress 8 - all': [],
-        'Disadvantaged %\nAll pupils group': [],
-        'Average number of pupils sitting exam\nAll pupils group': [],
-        'Progress 8 - disadvantaged': [],
-        'Disadvantaged %\nDisadvantaged pupils group': [],
-        'Average number of pupils sitting exam\nDisadvantaged pupils group': [],
-        }
+    'Governance': [],
+    'Percentile': [],
+    'Progress 8 - all': [],
+    'Disadvantaged %\nAll pupils group': [],
+    'Average number of pupils sitting exam\nAll pupils group': [],
+    'Progress 8 - disadvantaged': [],
+    'Disadvantaged %\nDisadvantaged pupils group': [],
+    'Average number of pupils sitting exam\nDisadvantaged pupils group': [],
+    }
 for group in ['Maintained', 'Single-academy trust', 'Multi-academy trust']:
     groups[group] = {
         'df': sec_grouped_out.loc[sec_grouped_out.Governance==group].copy()
@@ -265,7 +266,7 @@ for group in ['Maintained', 'Single-academy trust', 'Multi-academy trust']:
 writer = ExcelWriter(
     'output/Secondary.xlsx',
     engine='xlsxwriter',
-)
+    )
 summary = DataFrame(sec_group_summary).set_index(['Percentile', 'Governance'])\
     .unstack().transpose()
 summary.to_excel(
@@ -281,16 +282,17 @@ for group in ['Maintained', 'Single-academy trust', 'Multi-academy trust']:
 writer.close()
 
 
-ks2 = read_csv('data/exam_accounts_workforce/2018-2019/england_ks2final.csv',
-               usecols = [
-                    'URN',
-                    'TFSM6CLA1A',
-                    'TNotFSM6CLA1A',
-                    'PTRWM_EXP_FSM6CLA1A',
-                    'PTRWM_EXP_NotFSM6CLA1A',
-                    ],
-               na_values = ['NA', 'NP', 'SUPP', 'LOWCOV', 'NE', ' '],
-               )
+ks2 = read_csv(
+    'data/exam_accounts_workforce/2018-2019/england_ks2final.csv',
+    usecols = [
+         'URN',
+         'TFSM6CLA1A',
+         'TNotFSM6CLA1A',
+         'PTRWM_EXP_FSM6CLA1A',
+         'PTRWM_EXP_NotFSM6CLA1A',
+         ],
+    na_values = ['NA', 'NP', 'SUPP', 'LOWCOV', 'NE', ' '],
+    )
 ks2.columns = [
     'URN',
     'Number of disadvantaged pupils',
@@ -355,15 +357,15 @@ prim_grouped['Attainment gap - difference % expected level'] = (
 prim_grouped_out = prim_grouped.reset_index()
 groups = {}
 prim_group_summary = {
-        'Governance': [],
-        'Percentile': [],
-        'Expected level - all': [],
-        'Disadvantaged %\nAll pupils group': [],
-        'Average number of pupils sitting exam\nAll pupils group': [],
-        'Expected level - disadvantaged': [],
-        'Disadvantaged %\nDisadvantaged pupils group': [],
-        'Average number of pupils sitting exam\nDisadvantaged pupils group': [],
-        }
+    'Governance': [],
+    'Percentile': [],
+    'Expected level - all': [],
+    'Disadvantaged %\nAll pupils group': [],
+    'Average number of pupils sitting exam\nAll pupils group': [],
+    'Expected level - disadvantaged': [],
+    'Disadvantaged %\nDisadvantaged pupils group': [],
+    'Average number of pupils sitting exam\nDisadvantaged pupils group': [],
+    }
 for group in ['Maintained', 'Single-academy trust', 'Multi-academy trust']:
     groups[group] = {
         'df': prim_grouped_out.loc[prim_grouped_out.Governance==group].copy()
