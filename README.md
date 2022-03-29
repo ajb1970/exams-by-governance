@@ -8,4 +8,4 @@ Source data from the Department for Education is stored in the folder [data fold
 
 [governance_exam_performance.py](governance_exam_performance.py) collates Key Stage 2 and GCSE exam results by school governance - local authority maintained schools, single-academy trusts and multi-acadmey trusts. The script produces two spreadsheets that are saved in the [output folder](output).
 
-The report is [The Governments flawed case for a fully trust-led system.pdf](The Governments flawed case for a fully trust-led system.pdf).
+The report is [The Governments flawed case for a fully trust-led system.pdf](The%20Governments%20flawed%20case%20for%20a%20fully%20trust-led%20system.pdf).
