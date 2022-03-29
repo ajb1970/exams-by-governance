@@ -1,4 +1,4 @@
-# Key Stage 2 test results and GCSE exam resulte by school governance.
+# Key Stage 2 test results and GCSE exam results by school governance.
 
 This work was written to rebut the Governmant's claims in their document ["The case for a fully trust-led system"](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/1063615/The_case_for_a_fully_trust-led_system__web_.pdf) which is a collection of half truths. This analysis looks at the test and exam performance tables presented on page 18 of their document.
 
