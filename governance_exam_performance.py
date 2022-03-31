@@ -177,6 +177,20 @@ secondary['Progress 8 total disadvantaged'] = (
     secondary['Number of disadvantaged pupils'] *
     secondary['Progress 8 - disadvantaged pupils']
     )
+selective_urns = edubase.loc[
+    edubase['AdmissionsPolicy (name)']=='Selective'
+    ].index
+secondary.loc[
+    secondary.index.isin(selective_urns),
+    'Number of pupils at selective schools'
+    ] = (
+        secondary['Number of non-disadvantaged pupils'] +
+        secondary['Number of disadvantaged pupils']
+        )
+secondary.loc[
+    ~secondary.index.isin(selective_urns),
+    'Number of pupils at selective schools'
+    ] = 0
 
 sec_grouped = secondary.groupby(
     ['Governance', 'Governance organisation']
@@ -185,7 +199,8 @@ sec_grouped = secondary.groupby(
             'Number of disadvantaged pupils': 'sum',
             'Number of non-disadvantaged pupils': 'sum',
             'Progress 8 total non-disadvantaged': 'sum',
-            'Progress 8 total disadvantaged': 'sum'
+            'Progress 8 total disadvantaged': 'sum',
+            'Number of pupils at selective schools': 'sum',
             }
         )
 sec_grouped['Number of pupils'] = (
@@ -211,19 +226,25 @@ sec_grouped['Progress 8 - all'] = (
         ) /
     sec_grouped['Number of pupils']
     )
+sec_grouped['Selective schools %'] = (
+    sec_grouped['Number of pupils at selective schools'] /
+    sec_grouped['Number of pupils']
+    )
 
 sec_grouped_out = sec_grouped.reset_index()
 groups = {}
 sec_group_summary = {
-    'Governance': [],
-    'Percentile': [],
-    'Progress 8 - all': [],
-    'Disadvantaged %\nAll pupils group': [],
-    'Average number of pupils sitting exam\nAll pupils group': [],
-    'Progress 8 - disadvantaged': [],
-    'Disadvantaged %\nDisadvantaged pupils group': [],
-    'Average number of pupils sitting exam\nDisadvantaged pupils group': [],
-    }
+        'Governance': [],
+        'Percentile': [],
+        'Progress 8 - all': [],
+        'Disadvantaged %\nAll pupils group': [],
+        'Selective schools %\nAll pupils group': [],
+        'Average number of pupils sitting exam\nAll pupils group': [],
+        'Progress 8 - disadvantaged': [],
+        'Disadvantaged %\nDisadvantaged pupils group': [],
+        'Selective schools %\nDisadvantaged pupils group': [],
+        'Average number of pupils sitting exam\nDisadvantaged pupils group': [],
+        }
 for group in ['Maintained', 'Single-academy trust', 'Multi-academy trust']:
     groups[group] = {
         'df': sec_grouped_out.loc[sec_grouped_out.Governance==group].copy()
@@ -258,11 +279,17 @@ for group in ['Maintained', 'Single-academy trust', 'Multi-academy trust']:
                     percentile_group['Number of disadvantaged pupils'].sum() /
                     percentile_group['Number of pupils'].sum(),
                     )
+            sec_group_summary[
+                f'Selective schools %\n{pupil_group} pupils group'
+                ].append(
+                    percentile_group['Number of pupils at selective schools'].sum() /
+                    percentile_group['Number of pupils'].sum(),
+                    )
             sec_group_summary[f'Average number of pupils sitting exam\n\
 {pupil_group} pupils group'].append(
                 round(percentile_group['Number of pupils'].mean())
                 )
-
+                              
 writer = ExcelWriter(
     'output/Secondary.xlsx',
     engine='xlsxwriter',
